@@ -1,0 +1,12 @@
+<?php
+/**
+ * Retourne le chemin de redirection selon le rôle de l'utilisateur en session.
+ */
+function getRedirectUrlForUser(array $user): string
+{
+    return match ($user['role'] ?? 'client') {
+        'admin' => '../admin/admin-dashboard.php',   // adapte au vrai chemin
+        'client' => '../client/accueil.php',   // adapte au vrai chemin
+        default => '/backend/public/client/accueil.php',
+    };
+}
