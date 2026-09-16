@@ -1,0 +1,55 @@
+/* =========================================================
+   partages.css — page Partages uniquement
+   ========================================================= */
+
+.otiv-tabs{
+  display: flex;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+.otiv-tabs__btn{
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--otiv-border);
+  background: var(--otiv-white);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--otiv-text-soft);
+  cursor: pointer;
+}
+.otiv-tabs__btn.is-active{
+  background: var(--otiv-navy);
+  border-color: var(--otiv-navy);
+  color: var(--otiv-white);
+}
+
+.otiv-people{
+  display: flex;
+  align-items: center;
+}
+.otiv-people__avatar{
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--otiv-gray-dark);
+  color: var(--otiv-navy);
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--otiv-white);
+  margin-left: -8px;
+}
+.otiv-people__avatar:first-child{ margin-left: 0; }
+
+.otiv-tag{
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 700;
+  background: rgba(20,178,82,.1);
+  color: var(--otiv-green-dark);
+}

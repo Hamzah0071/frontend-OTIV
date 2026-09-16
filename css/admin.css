@@ -1,0 +1,230 @@
+/* =========================================================
+   admin.css — composants partagés par toutes les pages
+   de l'espace Administration (Tableau de bord, Utilisateurs,
+   Départements, Journal d'activité, Paramètres système)
+   ========================================================= */
+
+/* Bandeau "vous êtes dans l'administration" */
+.otiv-admin-bar{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--otiv-navy);
+  color: var(--otiv-white);
+  padding: 9px 28px;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.otiv-admin-bar__label{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.otiv-admin-bar__label i{ color: var(--otiv-green); }
+.otiv-admin-bar a{
+  color: #C9D2E8;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.otiv-admin-bar a:hover{ color: var(--otiv-white); }
+
+/* Cartes de statistiques (Tableau de bord) */
+.otiv-stat-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.otiv-stat-card{
+  background: var(--otiv-white);
+  border: 1px solid var(--otiv-border);
+  border-radius: var(--otiv-radius-lg);
+  box-shadow: var(--otiv-shadow-card);
+  padding: 20px 22px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.otiv-stat-card__icon{
+  width: 42px;
+  height: 42px;
+  border-radius: var(--otiv-radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.otiv-stat-card__icon.is-green{ background: rgba(20,178,82,.1); color: var(--otiv-green-dark); }
+.otiv-stat-card__icon.is-navy{ background: rgba(24,31,72,.08); color: var(--otiv-navy); }
+.otiv-stat-card__icon.is-amber{ background: rgba(245,165,36,.12); color: var(--otiv-amber); }
+.otiv-stat-card__icon.is-red{ background: rgba(228,72,58,.1); color: var(--otiv-red); }
+
+.otiv-stat-card__value{ font-size: 21px; font-weight: 800; color: var(--otiv-navy); line-height: 1.2; }
+.otiv-stat-card__label{ font-size: 12px; color: var(--otiv-text-soft); margin-top: 2px; }
+.otiv-stat-card__trend{ font-size: 11.5px; font-weight: 700; margin-top: 6px; }
+.otiv-stat-card__trend.is-up{ color: var(--otiv-green-dark); }
+.otiv-stat-card__trend.is-down{ color: var(--otiv-red); }
+
+/* Barre de recherche / filtre au-dessus des tableaux admin */
+.otiv-filter-bar{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.otiv-filter-bar__search{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--otiv-white);
+  border: 1px solid var(--otiv-border);
+  border-radius: var(--otiv-radius-sm);
+  padding: 9px 14px;
+  flex: 1;
+  max-width: 320px;
+  color: var(--otiv-text-faint);
+}
+.otiv-filter-bar__search input{
+  border: none; outline: none; background: transparent;
+  font-size: 13.5px; color: var(--otiv-text); width: 100%;
+}
+.otiv-filter-bar select{
+  height: 38px;
+  border: 1px solid var(--otiv-border);
+  border-radius: var(--otiv-radius-sm);
+  background: var(--otiv-white);
+  color: var(--otiv-text);
+  font-size: 13px;
+  padding: 0 10px;
+}
+.otiv-filter-bar__spacer{ flex: 1; }
+
+/* Badges de rôle et de statut */
+.otiv-badge-role{
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.otiv-badge-role.is-admin{ background: rgba(24,31,72,.08); color: var(--otiv-navy); }
+.otiv-badge-role.is-manager{ background: rgba(20,178,82,.1); color: var(--otiv-green-dark); }
+.otiv-badge-role.is-user{ background: var(--otiv-gray); color: var(--otiv-text-soft); }
+
+.otiv-badge-status{
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.otiv-badge-status.is-active{ background: rgba(20,178,82,.1); color: var(--otiv-green-dark); }
+.otiv-badge-status.is-inactive{ background: rgba(228,72,58,.1); color: var(--otiv-red); }
+.otiv-badge-status.is-pending{ background: rgba(245,165,36,.12); color: var(--otiv-amber); }
+
+/* Cellule "personne" avec avatar dans les tableaux admin */
+.otiv-person{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.otiv-person__avatar{
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: var(--otiv-gray-dark);
+  color: var(--otiv-navy);
+  font-size: 12px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.otiv-person__name{ font-weight: 600; color: var(--otiv-text); }
+.otiv-person__email{ font-size: 12px; color: var(--otiv-text-soft); }
+
+/* Journal d'activité */
+.otiv-log-list{ display: flex; flex-direction: column; }
+.otiv-log-row{
+  display: flex;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--otiv-border);
+}
+.otiv-log-row:last-child{ border-bottom: none; }
+.otiv-log-row__icon{
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+.otiv-log-row__icon.is-create{ background: rgba(20,178,82,.1); color: var(--otiv-green-dark); }
+.otiv-log-row__icon.is-delete{ background: rgba(228,72,58,.1); color: var(--otiv-red); }
+.otiv-log-row__icon.is-edit{ background: rgba(245,165,36,.12); color: var(--otiv-amber); }
+.otiv-log-row__icon.is-login{ background: rgba(24,31,72,.08); color: var(--otiv-navy); }
+.otiv-log-row__text{ font-size: 13.5px; color: var(--otiv-text); }
+.otiv-log-row__text b{ color: var(--otiv-navy); }
+.otiv-log-row__time{ font-size: 11.5px; color: var(--otiv-text-faint); margin-top: 2px; }
+
+/* Pagination simple */
+.otiv-pagination{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 22px;
+  border-top: 1px solid var(--otiv-border);
+  font-size: 12.5px;
+  color: var(--otiv-text-soft);
+}
+.otiv-pagination__pages{ display: flex; gap: 4px; }
+.otiv-pagination__pages button{
+  width: 28px; height: 28px;
+  border: 1px solid var(--otiv-border);
+  background: var(--otiv-white);
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  color: var(--otiv-text-soft);
+}
+.otiv-pagination__pages button.is-active{
+  background: var(--otiv-green);
+  border-color: var(--otiv-green);
+  color: var(--otiv-white);
+}
+
+/* Cartes département (grille admin) */
+.otiv-admin-dept-card{
+  background: var(--otiv-white);
+  border: 1px solid var(--otiv-border);
+  border-radius: var(--otiv-radius-lg);
+  box-shadow: var(--otiv-shadow-card);
+  padding: 20px;
+}
+.otiv-admin-dept-card__head{
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.otiv-admin-dept-card__name{ font-weight: 700; color: var(--otiv-navy); font-size: 14.5px; margin: 0 0 3px; }
+.otiv-admin-dept-card__resp{ font-size: 12px; color: var(--otiv-text-soft); }
+.otiv-admin-dept-card__stats{
+  display: flex;
+  gap: 18px;
+  padding-top: 12px;
+  border-top: 1px solid var(--otiv-border);
+}
+.otiv-admin-dept-card__stat-value{ font-weight: 700; color: var(--otiv-navy); font-size: 14px; }
+.otiv-admin-dept-card__stat-label{ font-size: 11px; color: var(--otiv-text-faint); }
+
+@media (max-width: 700px){
+  .otiv-filter-bar{ flex-wrap: wrap; }
+  .otiv-filter-bar__search{ max-width: none; width: 100%; }
+}

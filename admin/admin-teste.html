@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Administration — Tableau de bord — OTIV DIANA</title>
+<link rel="stylesheet" href="../../icon/fontAwesome/all.min.css">
+<link rel="stylesheet" href="../../css/common.css">
+<link rel="stylesheet" href="../../css/admin.css">
+</head>
+<body class="otiv-body">
+
+<div class="otiv-admin-bar">
+  <div class="otiv-admin-bar__label">
+    <i class="fa-solid fa-user-shield"></i> Panneau d'administration
+  </div>
+  <!-- pouvoir voir revenir dans la page d'utilisateur simple -->
+  <a href="#"><i class="fa-solid fa-arrow-left"></i> Retour à l'application</a>
+</div>
+
+<main class="otiv-page">
+
+    <div class="otiv-section-head">
+    <div>
+      <h1>Utilisateurs</h1>
+      <p>Gérez les comptes, les rôles et l'accès des employés de OTIV DIANA.</p>
+    </div>
+    <button class="otiv-btn otiv-btn--primary" id="btnNewUser">
+      <i class="fa-solid fa-plus"></i> Ajouter un utilisateur
+    </button>
+  </div>
+
+  <div class="otiv-settings">
+
+<!-- Navigation admin -->
+<div class="otiv-settings-nav">
+  <a href="admin-dashboard.html" class="otiv-settings-nav__link">
+    <i class="fa-solid fa-gauge-high"></i> Tableau de bord
+  </a>
+  <a href="admin-utilisateurs.html" class="otiv-settings-nav__link ">
+    <i class="fa-solid fa-users"></i> Utilisateurs
+  </a>
+  <a href="admin-departements.html" class="otiv-settings-nav__link">
+    <i class="fa-solid fa-building"></i> Départements
+  </a>
+  <a href="admin-Messages.html" class="otiv-settings-nav__link is-active">
+    <i class="otiv-icon fa-solid fa-comments"></i> SMS
+  </a>
+  <a href="admin-journal.html" class="otiv-settings-nav__link">
+    <i class="fa-solid fa-clock-rotate-left"></i> Journal d'activité
+  </a>
+  <a href="admin-parametres.html" class="otiv-settings-nav__link ">
+    <i class="fa-solid fa-sliders"></i> Paramètres système
+  </a>
+</div>
+
+      <!-- Contenu -->
+    <div>
+ 
+      <div class="otiv-filter-bar">
+        <div class="otiv-filter-bar__search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" placeholder="Rechercher un utilisateur...">
+        </div>
+        <select aria-label="Filtrer par département">
+          <option>Tous les départements</option>
+          <option>Crédit</option>
+          <option>Comptabilité</option>
+          <option>Ressources Humaines</option>
+          <option>Informatique</option>
+          <option>Direction Générale</option>
+        </select>
+        <select aria-label="Filtrer par rôle">
+          <option>Tous les rôles</option>
+          <option>Administrateur</option>
+          <option>Responsable</option>
+          <option>Utilisateur</option>
+        </select>
+      </div>
+ 
+      <div class="otiv-panel">
+        <table class="otiv-table">
+          <thead>
+            <tr>
+              <th>Utilisateur</th>
+              <th>Département</th>
+              <th>Rôle</th>
+              <th>Statut</th>
+              <th class="otiv-table__col-actions">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="otiv-user-row"
+                data-user-id="hamzah"
+                data-name="Hamzah"
+                data-email="hamzah@otivdiana.mg"
+                data-dept="Informatique"
+                data-role="admin"
+                data-status="active">
+              <td>
+                <div class="otiv-person">
+                  <span class="otiv-person__avatar">H</span>
+                  <div>
+                    <div class="otiv-person__name">Hamzah</div>
+                    <div class="otiv-person__email">hamzah@otivdiana.mg</div>
+                  </div>
+                </div>
+              </td>
+              <td class="otiv-cell-muted">Informatique</td>
+              <td><span class="otiv-badge-role is-admin"><i class="fa-solid fa-user-shield"></i> Administrateur</span></td>
+              <td><span class="otiv-badge-status is-active"><i class="fa-solid fa-circle"></i> Actif</span></td>
+              <td class="otiv-table__col-actions">
+                <div class="otiv-row-actions">
+                  <button class="otiv-icon-action" aria-label="Modifier" data-action="edit-user"><i class="fa-solid fa-pen"></i></button>
+                  <button class="otiv-icon-action is-danger" aria-label="Désactiver" data-action="deactivate-user"><i class="fa-solid fa-ban"></i></button>
+                </div>
+              </td>
+            </tr>
+            <tr class="otiv-user-row"
+                data-user-id="jack"
+                data-name="Jack"
+                data-email="jack@otivdiana.mg"
+                data-dept="Informatique"
+                data-role="admin"
+                data-status="active">
+              <td>
+                <div class="otiv-person">
+                  <span class="otiv-person__avatar">J</span>
+                  <div>
+                    <div class="otiv-person__name">Jack</div>
+                    <div class="otiv-person__email">jack@otivdiana.mg</div>
+                  </div>
+                </div>
+              </td>
+              <td class="otiv-cell-muted">Informatique</td>
+              <td><span class="otiv-badge-role is-admin"><i class="fa-solid fa-user-shield"></i> Administrateur</span></td>
+              <td><span class="otiv-badge-status is-active"><i class="fa-solid fa-circle"></i> Actif</span></td>
+              <td class="otiv-table__col-actions">
+                <div class="otiv-row-actions">
+                  <button class="otiv-icon-action" aria-label="Modifier" data-action="edit-user"><i class="fa-solid fa-pen"></i></button>
+                  <button class="otiv-icon-action is-danger" aria-label="Désactiver" data-action="deactivate-user"><i class="fa-solid fa-ban"></i></button>
+                </div>
+              </td>
+            </tr>
+            <tr class="otiv-user-row"
+                data-user-id="rindra"
+                data-name="Rindra"
+                data-email="rindra@otivdiana.mg"
+                data-dept="Comptabilité"
+                data-role="manager"
+                data-status="active">
+              <td>
+                <div class="otiv-person">
+                  <span class="otiv-person__avatar">R</span>
+                  <div>
+                    <div class="otiv-person__name">Rindra</div>
+                    <div class="otiv-person__email">rindra@otivdiana.mg</div>
+                  </div>
+                </div>
+              </td>
+              <td class="otiv-cell-muted">Comptabilité</td>
+              <td><span class="otiv-badge-role is-manager"><i class="fa-solid fa-star"></i> Responsable</span></td>
+              <td><span class="otiv-badge-status is-active"><i class="fa-solid fa-circle"></i> Actif</span></td>
+              <td class="otiv-table__col-actions">
+                <div class="otiv-row-actions">
+                  <button class="otiv-icon-action" aria-label="Modifier" data-action="edit-user"><i class="fa-solid fa-pen"></i></button>
+                  <button class="otiv-icon-action is-danger" aria-label="Désactiver" data-action="deactivate-user"><i class="fa-solid fa-ban"></i></button>
+                </div>
+              </td>
+            </tr>
+            <tr class="otiv-user-row"
+                data-user-id="fenosoa"
+                data-name="Fenosoa"
+                data-email="fenosoa@otivdiana.mg"
+                data-dept="Crédit"
+                data-role="user"
+                data-status="active">
+              <td>
+                <div class="otiv-person">
+                  <span class="otiv-person__avatar">F</span>
+                  <div>
+                    <div class="otiv-person__name">Fenosoa</div>
+                    <div class="otiv-person__email">fenosoa@otivdiana.mg</div>
+                  </div>
+                </div>
+              </td>
+              <td class="otiv-cell-muted">Crédit</td>
+              <td><span class="otiv-badge-role is-user"><i class="fa-regular fa-user"></i> Utilisateur</span></td>
+              <td><span class="otiv-badge-status is-active"><i class="fa-solid fa-circle"></i> Actif</span></td>
+              <td class="otiv-table__col-actions">
+                <div class="otiv-row-actions">
+                  <button class="otiv-icon-action" aria-label="Modifier" data-action="edit-user"><i class="fa-solid fa-pen"></i></button>
+                  <button class="otiv-icon-action is-danger" aria-label="Désactiver" data-action="deactivate-user"><i class="fa-solid fa-ban"></i></button>
+                </div>
+              </td>
+            </tr>
+            <tr class="otiv-user-row"
+                data-user-id="tovo"
+                data-name="Tovo"
+                data-email="tovo@otivdiana.mg"
+                data-dept="Ressources Humaines"
+                data-role="user"
+                data-status="pending">
+              <td>
+                <div class="otiv-person">
+                  <span class="otiv-person__avatar">T</span>
+                  <div>
+                    <div class="otiv-person__name">Tovo</div>
+                    <div class="otiv-person__email">tovo@otivdiana.mg</div>
+                  </div>
+                </div>
+              </td>
+              <td class="otiv-cell-muted">Ressources Humaines</td>
+              <td><span class="otiv-badge-role is-user"><i class="fa-regular fa-user"></i> Utilisateur</span></td>
+              <td><span class="otiv-badge-status is-pending"><i class="fa-solid fa-circle"></i> Invitation envoyée</span></td>
+              <td class="otiv-table__col-actions">
+                <div class="otiv-row-actions">
+                  <button class="otiv-icon-action" aria-label="Renvoyer l'invitation" data-action="resend-invite"><i class="fa-solid fa-paper-plane"></i></button>
+                  <button class="otiv-icon-action is-danger" aria-label="Annuler l'invitation" data-action="cancel-invite"><i class="fa-solid fa-trash"></i></button>
+                </div>
+              </td>
+            </tr>
+            <tr class="otiv-user-row"
+                data-user-id="lova"
+                data-name="Lova"
+                data-email="lova@otivdiana.mg"
+                data-dept="Direction Générale"
+                data-role="user"
+                data-status="inactive">
+              <td>
+                <div class="otiv-person">
+                  <span class="otiv-person__avatar">L</span>
+                  <div>
+                    <div class="otiv-person__name">Lova</div>
+                    <div class="otiv-person__email">lova@otivdiana.mg</div>
+                  </div>
+                </div>
+              </td>
+              <td class="otiv-cell-muted">Direction Générale</td>
+              <td><span class="otiv-badge-role is-user"><i class="fa-regular fa-user"></i> Utilisateur</span></td>
+              <td><span class="otiv-badge-status is-inactive"><i class="fa-solid fa-circle"></i> Désactivé</span></td>
+              <td class="otiv-table__col-actions">
+                <div class="otiv-row-actions">
+                  <button class="otiv-icon-action" aria-label="Réactiver" data-action="reactivate-user"><i class="fa-solid fa-rotate-left"></i></button>
+                  <button class="otiv-icon-action is-danger" aria-label="Supprimer" data-action="delete-user"><i class="fa-solid fa-trash"></i></button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+ 
+        <div class="otiv-pagination">
+          <span>Affichage de 1 à 6 sur 47 utilisateurs</span>
+          <div class="otiv-pagination__pages">
+            <button class="is-active">1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>…</button>
+            <button>8</button>
+          </div>
+        </div>
+      </div>
+ 
+    </div>
+  </div>
+ 
+</main>
+ 
+<!-- Modal ajout / édition d'utilisateur -->
+<div class="otiv-modal-overlay" id="userModal" hidden>
+  <div class="otiv-modal otiv-modal--sm">
+    <div class="otiv-modal__header">
+      <h3 class="otiv-modal__title">
+        <i class="otiv-icon fa-solid fa-user-plus" id="userModalIcon"></i>
+        <span id="userModalTitle">Ajouter un utilisateur</span>
+      </h3>
+      <button class="otiv-modal__close" data-action="close-user-modal" aria-label="Fermer">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+ 
+    <div class="otiv-modal__body">
+      <div class="otiv-field-row">
+        <div class="otiv-field">
+          <label for="userNameInput">Nom complet :</label>
+          <input type="text" id="userNameInput" placeholder="Ex : Marie Rakoto">
+        </div>
+        <div class="otiv-field">
+          <label for="userEmailInput">Adresse e-mail :</label>
+          <input type="email" id="userEmailInput" placeholder="marie@otivdiana.mg">
+        </div>
+         <!-- <div class="otiv-field">
+          <label for="userEmailInput">Adresse e-mail :</label>
+          <input type="email" id="userEmailInput" placeholder="marie@otivdiana.mg">
+        </div> -->
+      </div>
+ 
+      <div class="otiv-field-row">
+        <div class="otiv-field">
+          <label for="userDeptSelect">Département :</label>
+          <select id="userDeptSelect">
+            <option value="credit">Crédit</option>
+            <option value="compta">Comptabilité</option>
+            <option value="rh">Ressources Humaines</option>
+            <option value="info">Informatique</option>
+            <option value="dg">Direction Générale</option>
+          </select>
+        </div>
+        <div class="otiv-field">
+          <label for="userRoleSelect">Rôle :</label>
+          <select id="userRoleSelect">
+            <option value="user">Utilisateur</option>
+            <option value="manager">Responsable</option>
+            <option value="admin">Administrateur</option>
+          </select>
+        </div>
+      </div>
+ 
+      <p class="otiv-field-hint" id="userModalHint">
+        Un e-mail d'invitation sera envoyé à cette adresse pour définir le mot de passe.
+      </p>
+    </div>
+ 
+    <div class="otiv-modal__footer">
+      <button class="otiv-btn otiv-btn--ghost" data-action="close-user-modal">Annuler</button>
+      <button class="otiv-btn otiv-btn--solid" id="userModalConfirm">
+        <i class="fa-solid fa-check"></i> <span id="userModalConfirmLabel">Envoyer l'invitation</span>
+      </button>
+    </div>
+  </div>
+</div>
+ 
+<!-- Modal confirmation désactivation / suppression -->
+<div class="otiv-modal-overlay" id="userConfirmModal" hidden>
+  <div class="otiv-modal otiv-modal--sm">
+    <div class="otiv-modal__header">
+      <h3 class="otiv-modal__title">
+        <i class="otiv-icon fa-solid fa-triangle-exclamation" style="color: var(--otiv-red);" id="userConfirmIcon"></i>
+        <span id="userConfirmTitle">Désactiver l'utilisateur</span>
+      </h3>
+      <button class="otiv-modal__close" data-action="close-user-confirm" aria-label="Fermer">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+ 
+    <div class="otiv-modal__body">
+      <p class="otiv-modal__intro" style="margin-bottom:0;" id="userConfirmText">
+        Voulez-vous vraiment désactiver <strong id="userConfirmName">cet utilisateur</strong> ?
+        Il ne pourra plus se connecter tant que le compte n'est pas réactivé.
+      </p>
+    </div>
+ 
+    <div class="otiv-modal__footer">
+      <button class="otiv-btn otiv-btn--ghost" data-action="close-user-confirm">Annuler</button>
+      <button class="otiv-btn otiv-btn--primary" id="userConfirmAction" style="background: var(--otiv-red);">
+        <i class="fa-solid fa-ban"></i> <span id="userConfirmActionLabel">Désactiver</span>
+      </button>
+    </div>
+  </div>
+</div>
+ 
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  /* ---------------------------------------------------------
+     Modal : ajout / édition d'utilisateur
+     --------------------------------------------------------- */
+  const userModal        = document.getElementById('userModal');
+  const userModalIcon     = document.getElementById('userModalIcon');
+  const userModalTitle    = document.getElementById('userModalTitle');
+  const userNameInput     = document.getElementById('userNameInput');
+  const userEmailInput    = document.getElementById('userEmailInput');
+  const userDeptSelect    = document.getElementById('userDeptSelect');
+  const userRoleSelect    = document.getElementById('userRoleSelect');
+  const userModalHint     = document.getElementById('userModalHint');
+  const userModalConfirm  = document.getElementById('userModalConfirm');
+  const userModalConfirmLabel = document.getElementById('userModalConfirmLabel');
+ 
+  const DEPT_MAP = { 'Crédit': 'credit', 'Comptabilité': 'compta', 'Ressources Humaines': 'rh', 'Informatique': 'info', 'Direction Générale': 'dg' };
+ 
+  let editingUserId = null;
+ 
+  function openUserModal(mode, row) {
+    if (mode === 'edit' && row) {
+      editingUserId = row.dataset.userId;
+      userModalIcon.className = 'otiv-icon fa-solid fa-pen';
+      userModalTitle.textContent = 'Modifier l\'utilisateur';
+      userModalConfirmLabel.textContent = 'Enregistrer';
+      userModalHint.style.display = 'none';
+ 
+      userNameInput.value = row.dataset.name;
+      userEmailInput.value = row.dataset.email;
+      userDeptSelect.value = DEPT_MAP[row.dataset.dept] || 'credit';
+      userRoleSelect.value = row.dataset.role;
+    } else {
+      editingUserId = null;
+      userModalIcon.className = 'otiv-icon fa-solid fa-user-plus';
+      userModalTitle.textContent = 'Ajouter un utilisateur';
+      userModalConfirmLabel.textContent = "Envoyer l'invitation";
+      userModalHint.style.display = '';
+ 
+      userNameInput.value = '';
+      userEmailInput.value = '';
+      userDeptSelect.value = 'credit';
+      userRoleSelect.value = 'user';
+    }
+ 
+    userModal.hidden = false;
+    setTimeout(() => userNameInput.focus(), 50);
+  }
+ 
+  function closeUserModal() {
+    userModal.hidden = true;
+    editingUserId = null;
+  }
+ 
+  userModalConfirm.addEventListener('click', () => {
+    const name = userNameInput.value.trim();
+    const email = userEmailInput.value.trim();
+ 
+    if (!name) { userNameInput.focus(); return; }
+    if (!email || !email.includes('@')) { userEmailInput.focus(); return; }
+ 
+    const payload = {
+      name,
+      email,
+      department: userDeptSelect.value,
+      role: userRoleSelect.value
+    };
+ 
+    if (editingUserId) {
+      updateUser(editingUserId, payload);
+    } else {
+      inviteUser(payload);
+    }
+  });
+ 
+  userEmailInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') userModalConfirm.click();
+    if (e.key === 'Escape') closeUserModal();
+  });
+ 
+  // TODO: endpoint réel — enverrait un e-mail d'invitation Nextcloud (ou custom)
+  function inviteUser(payload) {
+    fetch('/apps/ged_interface/admin/users/invite', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', requesttoken: OC.requestToken },
+      body: JSON.stringify(payload)
+    })
+      .then(res => res.json())
+      .then(() => location.reload())
+      .catch(err => {
+        console.error('Erreur invitation utilisateur', err);
+        alert("Impossible d'envoyer l'invitation pour le moment.");
+      });
+  }
+ 
+  function updateUser(id, payload) {
+    fetch(`/apps/ged_interface/admin/users/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', requesttoken: OC.requestToken },
+      body: JSON.stringify(payload)
+    })
+      .then(res => res.json())
+      .then(() => location.reload())
+      .catch(err => {
+        console.error('Erreur modification utilisateur', err);
+        alert("Impossible de modifier l'utilisateur pour le moment.");
+      });
+  }
+ 
+  /* ---------------------------------------------------------
+     Modal : confirmation (désactiver / réactiver / supprimer /
+     annuler invitation / renvoyer invitation)
+     --------------------------------------------------------- */
+  const confirmModal        = document.getElementById('userConfirmModal');
+  const confirmIcon         = document.getElementById('userConfirmIcon');
+  const confirmTitle        = document.getElementById('userConfirmTitle');
+  const confirmText         = document.getElementById('userConfirmText');
+  const confirmNameEl       = document.getElementById('userConfirmName');
+  const confirmAction       = document.getElementById('userConfirmAction');
+  const confirmActionLabel  = document.getElementById('userConfirmActionLabel');
+ 
+  const ACTIONS = {
+    'deactivate-user': {
+      title: "Désactiver l'utilisateur", icon: 'fa-triangle-exclamation', color: 'var(--otiv-red)',
+      text: 'ne pourra plus se connecter tant que le compte n\'est pas réactivé.',
+      actionLabel: 'Désactiver', actionIcon: 'fa-ban', endpoint: (id) => `/apps/ged_interface/admin/users/${id}/deactivate`, method: 'POST'
+    },
+    'reactivate-user': {
+      title: "Réactiver l'utilisateur", icon: 'fa-rotate-left', color: 'var(--otiv-green)',
+      text: 'retrouvera l\'accès à son compte immédiatement.',
+      actionLabel: 'Réactiver', actionIcon: 'fa-rotate-left', endpoint: (id) => `/apps/ged_interface/admin/users/${id}/reactivate`, method: 'POST'
+    },
+    'delete-user': {
+      title: "Supprimer l'utilisateur", icon: 'fa-triangle-exclamation', color: 'var(--otiv-red)',
+      text: 'sera définitivement supprimé. Cette action est irréversible.',
+      actionLabel: 'Supprimer', actionIcon: 'fa-trash', endpoint: (id) => `/apps/ged_interface/admin/users/${id}`, method: 'DELETE'
+    },
+    'cancel-invite': {
+      title: "Annuler l'invitation", icon: 'fa-triangle-exclamation', color: 'var(--otiv-red)',
+      text: 'ne recevra plus l\'invitation à rejoindre OTIV DIANA.',
+      actionLabel: "Annuler l'invitation", actionIcon: 'fa-trash', endpoint: (id) => `/apps/ged_interface/admin/users/${id}/invite`, method: 'DELETE'
+    },
+    'resend-invite': {
+      title: "Renvoyer l'invitation", icon: 'fa-paper-plane', color: 'var(--otiv-green)',
+      text: 'recevra un nouvel e-mail d\'invitation.',
+      actionLabel: 'Renvoyer', actionIcon: 'fa-paper-plane', endpoint: (id) => `/apps/ged_interface/admin/users/${id}/invite/resend`, method: 'POST'
+    },
+  };
+ 
+  let pendingActionKey = null;
+  let pendingUserId = null;
+ 
+  function openConfirmModal(actionKey, row) {
+    const cfg = ACTIONS[actionKey];
+    if (!cfg) return;
+ 
+    pendingActionKey = actionKey;
+    pendingUserId = row.dataset.userId;
+ 
+    confirmIcon.className = `otiv-icon fa-solid ${cfg.icon}`;
+    confirmIcon.style.color = cfg.color;
+    confirmTitle.textContent = cfg.title;
+    confirmNameEl.textContent = row.dataset.name;
+    confirmText.innerHTML = `Voulez-vous vraiment continuer pour <strong id="userConfirmName">${row.dataset.name}</strong> ? Il ${cfg.text}`;
+    confirmActionLabel.textContent = cfg.actionLabel;
+    confirmAction.querySelector('i').className = `fa-solid ${cfg.actionIcon}`;
+    confirmAction.style.background = cfg.color;
+ 
+    confirmModal.hidden = false;
+  }
+ 
+  function closeConfirmModal() {
+    confirmModal.hidden = true;
+    pendingActionKey = null;
+    pendingUserId = null;
+  }
+ 
+  confirmAction.addEventListener('click', () => {
+    if (!pendingActionKey || !pendingUserId) return;
+    const cfg = ACTIONS[pendingActionKey];
+ 
+    fetch(cfg.endpoint(pendingUserId), {
+      method: cfg.method,
+      headers: { requesttoken: OC.requestToken }
+    })
+      .then(() => location.reload())
+      .catch(err => {
+        console.error(`Erreur action ${pendingActionKey}`, err);
+        alert("Impossible d'effectuer cette action pour le moment.");
+      });
+  });
+ 
+  /* ---------------------------------------------------------
+     Délégation d'événements globale (CSP-safe, pas d'onclick inline)
+     --------------------------------------------------------- */
+  document.getElementById('btnNewUser').addEventListener('click', () => openUserModal('create'));
+ 
+  document.addEventListener('click', (e) => {
+    const editBtn = e.target.closest('[data-action="edit-user"]');
+    if (editBtn) {
+      openUserModal('edit', editBtn.closest('.otiv-user-row'));
+    }
+ 
+    Object.keys(ACTIONS).forEach(key => {
+      const btn = e.target.closest(`[data-action="${key}"]`);
+      if (btn) {
+        openConfirmModal(key, btn.closest('.otiv-user-row'));
+      }
+    });
+ 
+    if (e.target.closest('[data-action="close-user-modal"]') || e.target === userModal) {
+      closeUserModal();
+    }
+    if (e.target.closest('[data-action="close-user-confirm"]') || e.target === confirmModal) {
+      closeConfirmModal();
+    }
+  });
+});
+</script>
+</body>
+</html>

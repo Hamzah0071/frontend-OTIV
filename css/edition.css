@@ -1,0 +1,147 @@
+/* =========================================================
+   edition.css — page d'édition de document
+   ========================================================= */
+
+.otiv-editor-bar{
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--otiv-white);
+  border-bottom: 1px solid var(--otiv-border);
+  padding: 10px 22px;
+}
+
+.otiv-editor-bar__back{
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 1px solid var(--otiv-border);
+  background: var(--otiv-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--otiv-text-soft);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.otiv-editor-bar__back:hover{ background: var(--otiv-gray); color: var(--otiv-navy); }
+
+.otiv-editor-bar__title-group{ flex: 1; min-width: 0; }
+
+.otiv-editor-bar__title{
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--otiv-navy);
+  width: 100%;
+  padding: 2px 0;
+}
+.otiv-editor-bar__status{
+  font-size: 11.5px;
+  color: var(--otiv-text-faint);
+}
+.otiv-editor-bar__status .otiv-dot{
+  display: inline-block;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--otiv-green);
+  margin-right: 5px;
+}
+
+.otiv-editor-bar__actions{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.otiv-toolbar-strip{
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--otiv-white);
+  border-bottom: 1px solid var(--otiv-border);
+  padding: 8px 22px;
+  overflow-x: auto;
+}
+
+.otiv-toolbar-strip__group{
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding-right: 10px;
+  margin-right: 10px;
+  border-right: 1px solid var(--otiv-border);
+}
+.otiv-toolbar-strip__group:last-child{ border-right: none; }
+
+.otiv-toolbar-strip button{
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  border-radius: 7px;
+  color: var(--otiv-text-soft);
+  font-size: 15px;
+  cursor: pointer;
+}
+.otiv-toolbar-strip button:hover{ background: var(--otiv-gray); color: var(--otiv-navy); }
+.otiv-toolbar-strip button.is-active{ background: rgba(20,178,82,.12); color: var(--otiv-green-dark); }
+
+.otiv-toolbar-strip select{
+  height: 32px;
+  border: 1px solid var(--otiv-border);
+  border-radius: 7px;
+  background: var(--otiv-white);
+  color: var(--otiv-text);
+  font-size: 12.5px;
+  padding: 0 8px;
+}
+
+.otiv-editor-wrap{
+  max-width: 900px;
+  margin: 28px auto 60px;
+  padding: 0 20px;
+}
+
+.otiv-editor-sheet{
+  background: var(--otiv-white);
+  border: 1px solid var(--otiv-border);
+  border-radius: var(--otiv-radius-md);
+  box-shadow: var(--otiv-shadow-card);
+  padding: 56px 64px;
+  min-height: 900px;
+}
+
+.otiv-editor-sheet[contenteditable="true"]{ outline: none; }
+
+.otiv-editor-sheet h1{
+  font-size: 26px;
+  color: var(--otiv-navy);
+  margin: 0 0 18px;
+}
+.otiv-editor-sheet h2{
+  font-size: 18px;
+  color: var(--otiv-navy);
+  margin: 28px 0 10px;
+}
+.otiv-editor-sheet p{
+  margin: 0 0 14px;
+  color: var(--otiv-text);
+  line-height: 1.7;
+}
+.otiv-editor-sheet ul{
+  margin: 0 0 14px;
+  padding-left: 22px;
+  color: var(--otiv-text);
+  line-height: 1.7;
+}
+
+@media (max-width: 720px){
+  .otiv-editor-sheet{ padding: 30px 22px; }
+}
