@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Documents — OTIV DIANA</title>
+<link rel="shortcut icon" href="../icon/sans-fond.png" type="image/x-icon">
 <link rel="stylesheet" href="../icon/fontAwesome/all.min.css">
 <link rel="stylesheet" href="../css/common.css">
 <link rel="stylesheet" href="../css/documents.css">
@@ -50,9 +51,9 @@
   </div>
 
   <!-- Barre de navigation d'emplacement : Fil d'Ariane + Bouton Espace Département à gauche, et Importer à droite -->
-  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 5px;">
     <div style="display: flex; align-items: center; gap: 10px; flex: 1;">
-      <nav class="otiv-breadcrumb" id="breadcrumbContainer" style="margin: 0;">
+      <nav class="otiv-breadcrumb" id="breadcrumbContainer" style=" width: 300px;">
         <a href="#" onclick="loadFolder(null, 'all'); return false;" class="otiv-breadcrumb__crumb">
           <i class="otiv-icon fa-solid fa-house"></i> Racine
         </a>

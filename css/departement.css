@@ -46,3 +46,37 @@
   color: var(--otiv-text-soft);
   font-size: 12.5px;
 }
+  /* ---------------------------------------------------------
+   Signe distinctif : mon département
+   --------------------------------------------------------- */
+.otiv-dept-card.is-mine{
+  border: 1.5px solid var(--otiv-green);
+  box-shadow: 0 0 0 3px rgba(20,178,82,.1), var(--otiv-shadow-card);
+}
+.otiv-dept-card.is-mine .otiv-dept-card__icon{
+  background: var(--otiv-green);
+  color: var(--otiv-white);
+}
+
+.otiv-dept-badge{
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 8px;
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  background: rgba(20,178,82,.12);
+  color: var(--otiv-green-dark);
+  vertical-align: middle;
+}
+
+/* Curseur explicite pour les départements non-membres */
+.otiv-dept-card:not(.is-mine){ cursor: pointer; }
+.otiv-modal__intro{
+  font-size: 13px;
+  color: var(--otiv-text-soft);
+  margin: 0 0 16px;
+}
+.otiv-modal__intro strong{ color: var(--otiv-navy); }

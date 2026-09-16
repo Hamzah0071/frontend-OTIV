@@ -12,6 +12,8 @@ $navLinks = [
     ['href' => 'corbeille.php', 'icon' => 'fa-trash', 'label' => 'Corbeille'],
 ];
 ?>
+<link rel="shortcut icon" href="../icon/sans-fond.png" type="image/x-icon">
+</nav>
 <nav class="otiv-nav">
     <div class="otiv-nav__brand">
         <span class="otiv-nav__brand-mark">

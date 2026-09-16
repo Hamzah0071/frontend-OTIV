@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Accueil — OTIV DIANA</title>
 <link rel="stylesheet" href="../icon/fontAwesome/all.min.css">
+<link rel="shortcut icon" href="../icon/sans-fond.png" type="image/x-icon">
 <link rel="stylesheet" href="../css/common.css">
 <link rel="stylesheet" href="../css/accueil.css">
 <script src="http://localhost:8081/web-apps/apps/api/documents/api.js"></script>

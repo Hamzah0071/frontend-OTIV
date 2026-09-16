@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Partages — OTIV DIANA</title>
+<link rel="shortcut icon" href="../icon/sans-fond.png" type="image/x-icon">
 <link rel="shortcut icon" href="icon/sans-fond.png" type="image/x-icon">
 <link rel="stylesheet" href="../icon/fontAwesome/all.min.css">
 <link rel="stylesheet" href="../css/common.css">
