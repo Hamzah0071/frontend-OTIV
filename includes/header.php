@@ -13,6 +13,7 @@ $navLinks = [
 ];
 ?>
 <link rel="shortcut icon" href="../icon/sans-fond.png" type="image/x-icon">
+
 </nav>
 <nav class="otiv-nav">
     <div class="otiv-nav__brand">

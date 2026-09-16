@@ -5,42 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Administration — Utilisateurs — OTIV DIANA</title>
 <link rel="shortcut icon" href="../icon/sans-fond.png" type="image/x-icon">
-<link rel="shortcut icon" href="../icon/sans-fond.png" type="image/x-icon">
 <link rel="stylesheet" href="../icon/fontAwesome/all.min.css">
 <link rel="stylesheet" href="../css/common.css">
 <link rel="stylesheet" href="../css/messages.css">
-<link rel="stylesheet" href="../css/admin.css">
+
 </head>
 <body class="otiv-body">
 
 
+  <!-- header -->
+   <?php require __DIR__ . '/../includes/header.php'; ?>
 
-<div class="otiv-admin-bar">
-  <div class="otiv-admin-bar__label">
-    <i class="fa-solid fa-user-shield"></i> Panneau d'administration
-  </div>
-  <a href="accueil.html"><i class="fa-solid fa-arrow-left"></i> Retour à l'application</a>
-</div>
 
-<main class="otiv-page">
-
-  <div class="otiv-section-head">
-    <div>
-      <h1>Utilisateurs</h1>
-      <p>Gérez les comptes, les rôles et l'accès des employés de OTIV DIANA.</p>
-    </div>
-    <button class="otiv-btn otiv-btn--primary">
-      <i class="fa-solid fa-plus"></i> Ajouter un utilisateur
-    </button>
-  </div>
-
-  <div class="otiv-settings">
-
-<!-- lien vers le includes ou tout les outis detachable -->
-<?php require __DIR__ . '/../includes/header-admin.php'; ?>
-
-    <!-- Contenu -->
-    <div>
 <main class="otiv-page otiv-page--messages">
 
   <div class="otiv-section-head">
