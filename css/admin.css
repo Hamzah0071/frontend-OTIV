@@ -9,11 +9,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
   background: var(--otiv-navy);
   color: var(--otiv-white);
-  padding: 9px 28px;
+  padding: 9px clamp(14px, 3vw, 28px); /* respire davantage sur grand écran, se resserre sur mobile */
   font-size: 12.5px;
   font-weight: 600;
+  flex-wrap: wrap;
 }
 .otiv-admin-bar__label{
   display: flex;
@@ -27,10 +29,13 @@
   display: flex;
   align-items: center;
   gap: 6px;
+  white-space: nowrap;
 }
 .otiv-admin-bar a:hover{ color: var(--otiv-white); }
 
-/* Cartes de statistiques (Tableau de bord) */
+/* Cartes de statistiques (Tableau de bord)
+   auto-fit + minmax : le nombre de colonnes s'ajuste déjà tout seul
+   (4 sur grand écran PC, 2-3 sur tablette, 1 sur téléphone) */
 .otiv-stat-grid{
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -47,6 +52,7 @@
   display: flex;
   align-items: flex-start;
   gap: 14px;
+  min-width: 0;
 }
 
 .otiv-stat-card__icon{
@@ -76,6 +82,7 @@
   align-items: center;
   gap: 10px;
   margin-bottom: 14px;
+  flex-wrap: wrap;
 }
 .otiv-filter-bar__search{
   display: flex;
@@ -87,6 +94,7 @@
   padding: 9px 14px;
   flex: 1;
   max-width: 320px;
+  min-width: 180px;
   color: var(--otiv-text-faint);
 }
 .otiv-filter-bar__search input{
@@ -113,6 +121,7 @@
   border-radius: 999px;
   font-size: 11px;
   font-weight: 700;
+  white-space: nowrap;
 }
 .otiv-badge-role.is-admin{ background: rgba(24,31,72,.08); color: var(--otiv-navy); }
 .otiv-badge-role.is-manager{ background: rgba(20,178,82,.1); color: var(--otiv-green-dark); }
@@ -126,6 +135,7 @@
   border-radius: 999px;
   font-size: 11px;
   font-weight: 700;
+  white-space: nowrap;
 }
 .otiv-badge-status.is-active{ background: rgba(20,178,82,.1); color: var(--otiv-green-dark); }
 .otiv-badge-status.is-inactive{ background: rgba(228,72,58,.1); color: var(--otiv-red); }
@@ -136,6 +146,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  min-width: 0;
 }
 .otiv-person__avatar{
   width: 30px; height: 30px;
@@ -146,8 +157,8 @@
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
 }
-.otiv-person__name{ font-weight: 600; color: var(--otiv-text); }
-.otiv-person__email{ font-size: 12px; color: var(--otiv-text-soft); }
+.otiv-person__name{ font-weight: 600; color: var(--otiv-text); overflow: hidden; text-overflow: ellipsis; }
+.otiv-person__email{ font-size: 12px; color: var(--otiv-text-soft); overflow: hidden; text-overflow: ellipsis; }
 
 /* Journal d'activité */
 .otiv-log-list{ display: flex; flex-direction: column; }
@@ -178,12 +189,14 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 10px;
   padding: 14px 22px;
   border-top: 1px solid var(--otiv-border);
   font-size: 12.5px;
   color: var(--otiv-text-soft);
+  flex-wrap: wrap;
 }
-.otiv-pagination__pages{ display: flex; gap: 4px; }
+.otiv-pagination__pages{ display: flex; gap: 4px; flex-wrap: wrap; }
 .otiv-pagination__pages button{
   width: 28px; height: 28px;
   border: 1px solid var(--otiv-border);
@@ -211,6 +224,7 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+  gap: 10px;
   margin-bottom: 14px;
 }
 .otiv-admin-dept-card__name{ font-weight: 700; color: var(--otiv-navy); font-size: 14.5px; margin: 0 0 3px; }
@@ -220,11 +234,80 @@
   gap: 18px;
   padding-top: 12px;
   border-top: 1px solid var(--otiv-border);
+  flex-wrap: wrap;
 }
 .otiv-admin-dept-card__stat-value{ font-weight: 700; color: var(--otiv-navy); font-size: 14px; }
 .otiv-admin-dept-card__stat-label{ font-size: 11px; color: var(--otiv-text-faint); }
 
-@media (max-width: 700px){
+/* Grille générique pour toute liste de cartes département/admin
+   (utilisée si la page les enveloppe dans .otiv-grid) */
+.otiv-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+/* Lien "Déconnexion" réutilisé dans les nav latérales (profil + admin) :
+   il emprunte .otiv-nav__link (pensé pour la barre du haut, en pilule) ;
+   on l'aligne visuellement sur les autres liens de la nav latérale. */
+.otiv-settings-nav__logout{
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 13.5px;
+  margin-top: 4px;
+}
+
+/* ---------------------------------------------------------
+   Responsive — PC d'abord, puis tablette, puis téléphone
+   Les grilles en auto-fit (stat-grid, otiv-grid) s'adaptent
+   déjà seules ; les réglages ci-dessous couvrent ce qui reste
+   figé (bandeau admin, filtres, pagination, cartes département).
+   --------------------------------------------------------- */
+
+/* Grand écran PC : un peu plus d'air, jamais de colonnes trop
+   étroites même avec beaucoup de cartes de statistiques */
+@media (min-width: 1400px){
+  .otiv-stat-grid{ gap: 20px; }
+  .otiv-stat-card{ padding: 22px 24px; }
+}
+
+/* Petit desktop / grande tablette */
+@media (max-width: 1024px){
+  .otiv-admin-dept-card__stats{ gap: 14px; }
+}
+
+/* Tablette : le bandeau admin et les filtres se resserrent */
+@media (max-width: 900px){
+  .otiv-stat-grid{ grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+  .otiv-filter-bar__search{ min-width: 140px; }
+}
+
+/* Mobile large */
+@media (max-width: 768px){
+  .otiv-admin-bar{ font-size: 12px; }
   .otiv-filter-bar{ flex-wrap: wrap; }
   .otiv-filter-bar__search{ max-width: none; width: 100%; }
+  .otiv-filter-bar select{ width: 100%; }
+  .otiv-pagination{ justify-content: center; text-align: center; }
+  .otiv-pagination > *{ width: 100%; justify-content: center; display: flex; }
+}
+
+/* Mobile moyen */
+@media (max-width: 600px){
+  .otiv-stat-grid{ grid-template-columns: 1fr 1fr; gap: 12px; }
+  .otiv-stat-card{ padding: 16px 14px; gap: 10px; }
+  .otiv-stat-card__icon{ width: 36px; height: 36px; font-size: 16px; }
+  .otiv-stat-card__value{ font-size: 18px; }
+  .otiv-admin-dept-card__stats{ gap: 12px 20px; }
+  .otiv-log-row{ gap: 10px; }
+}
+
+/* Mobile étroit : une seule carte statistique par ligne, texte du
+   bandeau admin raccourci en cachant les libellés secondaires */
+@media (max-width: 420px){
+  .otiv-stat-grid{ grid-template-columns: 1fr; }
+  .otiv-admin-bar{ padding: 8px 12px; }
+  .otiv-admin-bar__label span,
+  .otiv-admin-bar a span{ display: none; } /* icône seule, gain de place maximal */
+  .otiv-person__email{ display: none; } /* nom seul suffit sur très petit écran */
 }

@@ -1,98 +1,41 @@
-<?php
+Oui, j’ai accès au dossier et j’ai analysé le projet sans le modifier.
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ExplorerController;
-use App\Http\Controllers\SearchController;
+C’est une GED OTIV DIANA construite autour de :
 
-// ==========================================================
-// PAGE D'ACCUEIL "/"
-// ==========================================================
-Route::get('/', function () {
-    if (!auth()->check()) {
-        return redirect('/login.php');
-    }
+- Laravel 12 / PHP 8.2 pour le backend
+- MariaDB pour les métadonnées
+- Nextcloud pour le stockage
+- OnlyOffice pour l’édition de documents
+- Pages PHP/JS statiques dans `backend/public`
 
-    return auth()->user()->role === 'admin'
-        ? redirect('/admin/admin-dashboard.php')
-        : redirect('/client/accueil.php');
-});
+Points critiques à corriger en priorité :
 
-// ==========================================================
-// LOGIN — reste physiquement dans public/, exécuté via require()
-// ==========================================================
-Route::get('/login.php', function () {
-    if (auth()->check()) {
-        return redirect(auth()->user()->role === 'admin'
-            ? '/admin/admin-dashboard.php'
-            : '/client/accueil.php');
-    }
+1. Erreur bloquante dans OnlyOffice  
+   Dans [ExplorerController.php](C:\otiv_ged\backend\app\Http\Controllers\ExplorerController.php:441), la construction de `$configPayload` contient une fermeture `]` en trop vers la ligne 463. Le fichier ne peut probablement pas être interprété par PHP, ce qui bloque les API Laravel.
 
-    ob_start();
-    require public_path('login.php');
-    return response(ob_get_clean());
-});
+2. Contrôles d’accès incomplets  
+   Plusieurs routes récupèrent un fichier uniquement par son ID sans vérifier que l’utilisateur y a droit, notamment l’historique et l’ouverture universelle. Un utilisateur connecté pourrait consulter les métadonnées / traces d’un document d’un autre département en modifiant l’ID dans l’URL.
 
-// ==========================================================
-// TOUTES les pages ADMIN (*.php dans public/admin/)
-// Aucun fichier déplacé — on vérifie juste l'accès avant de l'exécuter
-// ==========================================================
-Route::get('/admin/{file}', function (string $file) {
-    if (!auth()->check() || auth()->user()->role !== 'admin') {
-        return redirect('/login.php');
-    }
+3. Callback OnlyOffice non sécurisé  
+   `/api/onlyoffice/callback` accepte une requête sans CSRF, sans authentification OnlyOffice/JWT vérifiée et télécharge l’URL reçue via `file_get_contents`. C’est un risque sérieux de requêtes serveur non désirées (SSRF) et de modification de fichiers.
 
-    $path = public_path("admin/{$file}");
+4. Secrets exposés  
+   Les mots de passe MariaDB, Nextcloud, OnlyOffice et un secret JWT sont écrits en clair dans [docker-compose.yml](C:\otiv_ged\docker-compose.yml) et aussi utilisés comme valeurs par défaut dans [NextcloudService.php](C:\otiv_ged\backend\app\Services\NextcloudService.php:14). Il faut les déplacer dans un `.env` non versionné et les renouveler.
 
-    if (!file_exists($path)) {
-        abort(404);
-    }
+5. Migrations incomplètes  
+   Le code dépend des tables `fichiers` et `dossiers`, mais leurs migrations sont absentes de `backend/database/migrations`. Le projet ne peut donc pas reconstruire une base propre de façon fiable.
 
-    ob_start();
-    require $path;
-    return response(ob_get_clean());
-})->where('file', '.*\.php$');
+6. Nextcloud pas réellement utilisé à l’upload  
+   Malgré les commentaires, `uploadFile()` stocke les fichiers localement dans Laravel (`storage/app/private/documents`) ; Nextcloud n’est utilisé qu’en solution de repli en lecture. Il y a donc un écart entre l’architecture annoncée et le comportement réel.
 
-// ==========================================================
-// TOUTES les pages CLIENT (*.php dans public/client/)
-// ==========================================================
-Route::get('/client/{file}', function (string $file) {
-    if (!auth()->check()) {
-        return redirect('/login.php');
-    }
+7. Tests non exécutables localement  
+   PHP n’est pas installé/accessible sur la machine hôte, et Docker n’est pas accessible depuis cet environnement. Je n’ai donc pas pu lancer `artisan`, les migrations ou PHPUnit.
 
-    $path = public_path("client/{$file}");
+Autres incohérences visibles :
 
-    if (!file_exists($path)) {
-        abort(404);
-    }
+- Certaines pages client font référence à `documents.html`, alors que le fichier réel est `documents.php`.
+- Les pages physiques dans `public/client` peuvent contourner les routes Laravel prévues pour la protection d’accès.
+- Plusieurs scripts injectent des données API avec `innerHTML`, exposant potentiellement à du XSS si les noms de fichiers ou les logs sont malveillants.
+- L’URL OnlyOffice est codée en dur sur `localhost:8081` / `host.docker.internal`, ce qui compliquera un déploiement réel.
 
-    ob_start();
-    require $path;
-    return response(ob_get_clean());
-})->where('file', '.*\.php$');
-
-// ==========================================================
-// API — Explorateur de fichiers
-// ==========================================================
-Route::get('/api/explorer', [ExplorerController::class, 'index']);
-Route::post('/api/dossiers', [ExplorerController::class, 'createFolder'])->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class]);
-Route::get('/api/fichiers/{id}/preview', [ExplorerController::class, 'getPreviewConfig']);
-Route::get('/api/fichiers/{id}/open', [ExplorerController::class, 'openUniversalFile']);
-Route::post('/api/fichiers', [ExplorerController::class, 'uploadFile'])->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class]);
-
-Route::get('/api/recherche', [SearchController::class, 'search']);
-
-Route::get('/api/fichiers/{id}/stream', [ExplorerController::class, 'streamFile']);
-Route::post('/api/onlyoffice/callback', [ExplorerController::class, 'onlyOfficeCallback'])->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class]);
-
-Route::post('/api/fichiers/creer-office', [ExplorerController::class, 'createOfficeDocument'])->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class]);
-Route::get('/api/fichiers/{id}/historique', [ExplorerController::class, 'getFileHistory']);
-
-Route::post('/api/corbeille/{type}/{id}', [ExplorerController::class, 'moveToTrash'])->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class]);
-
-// ==========================================================
-// API — Authentification
-// ==========================================================
-Route::post('/api/login', [AuthController::class, 'login'])->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class]);
-Route::post('/api/logout', [AuthController::class, 'logout'])->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class]);
+Je te conseille de commencer par réparer la syntaxe d’`ExplorerController`, sécuriser toutes les autorisations de fichiers, puis remettre les secrets et les migrations au propre.

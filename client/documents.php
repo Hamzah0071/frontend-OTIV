@@ -8,6 +8,9 @@
 <link rel="stylesheet" href="../icon/fontAwesome/all.min.css">
 <link rel="stylesheet" href="../css/common.css">
 <link rel="stylesheet" href="../css/documents.css">
+
+<link rel="stylesheet" href="../css/responsive.css">
+<script src="../js/mobile-menu.js" defer></script>
 <script src="http://localhost:8081/web-apps/apps/api/documents/api.js"></script>
 
 </head>
@@ -225,5 +228,6 @@
 
 <script src="../js/common.js"></script>
 <script src="../js/documents.js"></script>
+<script src="../js/accueil.js"></script>
 </body>
 </html>

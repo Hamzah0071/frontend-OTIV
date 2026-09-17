@@ -166,7 +166,7 @@
         alert(`Partage de ${type} : "${name}"\nModule de gestion accessible dans "Partages".`);
     };
 
-    // 6. IMPORTATION DE FICHIER RAPIDE
+    // 6. IMPORTATION DE FICHIERS RAPIDE
     const btnImportNav = document.getElementById('btnImportNav');
     const filePicker = document.getElementById('filePicker');
     if (btnImportNav && filePicker) {
@@ -176,6 +176,7 @@
             const formData = new FormData();
             formData.append('document', filePicker.files[0]);
             if (currentFolderId) formData.append('dossier_id', currentFolderId);
+            formData.append('visibility', currentScope === 'private' ? 'private' : 'dept'); // Ajout du paramètre visibility
 
             const origHtml = btnImportNav.innerHTML;
             btnImportNav.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Envoi...';
@@ -183,9 +184,18 @@
             try {
                 const res = await fetch('/api/fichiers', { method: 'POST', body: formData });
                 if (res.ok) loadFolder(currentFolderId);
-                else alert("Erreur lors de l'envoi.");
-            } catch(err) { alert("Erreur de connexion."); }
-            finally {
+                else {
+                    const errorData = await res.json();
+                    // Message d'erreur convivial au lieu du message technique
+                    if (errorData.message && errorData.message.includes('Nextcloud')) {
+                        alert("⚠️ Le service de stockage est temporairement indisponible. Veuillez réessayer dans quelques instants.");
+                    } else {
+                        alert("❌ Impossible d'importer le fichier. Veuillez réessayer.");
+                    }
+                }
+            } catch(err) { 
+                alert("❌ Erreur de connexion. Vérifiez votre réseau et réessayez.");
+            } finally {
                 filePicker.value = '';
                 btnImportNav.innerHTML = origHtml;
             }
@@ -290,8 +300,15 @@
                     body: JSON.stringify({ nom: name, parent_id: targetFolderId, visibility: visibility })
                 });
                 if (res.ok) loadFolder(currentFolderId);
-                else alert("Erreur lors de la création du dossier.");
-            } catch(err) { alert("Erreur de connexion."); }
+                else {
+                    const errorData = await res.json();
+                    if (errorData.message && errorData.message.includes('Nextcloud')) {
+                        alert("⚠️ Le service de stockage est temporairement indisponible. Veuillez réessayer dans quelques instants.");
+                    } else {
+                        alert("❌ Impossible de créer le dossier. Veuillez réessayer.");
+                    }
+                }
+            } catch(err) { alert("❌ Erreur de connexion. Vérifiez votre réseau et réessayez."); }
         } else {
             try {
                 const res = await fetch('/api/fichiers/creer-office', {
@@ -303,9 +320,13 @@
                 if (res.ok) {
                     loadFolder(currentFolderId);
                 } else {
-                    alert(data.error || "Erreur de création.");
+                    if (data.message && data.message.includes('Nextcloud')) {
+                        alert("⚠️ Le service de stockage est temporairement indisponible. Veuillez réessayer dans quelques instants.");
+                    } else {
+                        alert("❌ Impossible de créer le document. Veuillez réessayer.");
+                    }
                 }
-            } catch (err) { alert("Erreur de connexion."); }
+            } catch (err) { alert("❌ Erreur de connexion. Vérifiez votre réseau et réessayez."); }
         }
     });
 

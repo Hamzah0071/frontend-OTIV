@@ -1,0 +1,184 @@
+/* =========================================================
+   OTIV DIANA — responsive.css
+   CSS classique, compatible avec common.css existant
+   ========================================================= */
+
+/* Le header desktop reste votre navigation principale. */
+.otiv-mobile-bar,
+.otiv-mobile-search,
+.otiv-drawer,
+.otiv-drawer-overlay { display: none; }
+
+/* Le panneau du tableau devient scrollable sans casser la page. */
+.otiv-panel {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.otiv-panel .otiv-table {
+  min-width: 680px;
+}
+
+@media (max-width: 767px) {
+  body.otiv-body { overflow-x: hidden; }
+
+  .otiv-nav--desktop { display: none; }
+
+  .otiv-mobile-bar {
+    min-height: 62px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 14px;
+    background: var(--otiv-white);
+    border-bottom: 1px solid var(--otiv-border);
+    position: sticky;
+    top: 0;
+    z-index: 40;
+  }
+
+  .otiv-mobile-bar__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    color: var(--otiv-navy);
+  }
+  .otiv-mobile-bar__brand img {
+    display: block;
+    width: auto;
+    height: 35px;
+    object-fit: contain;
+  }
+  .otiv-mobile-bar__brand strong {
+    font-size: 15px;
+    white-space: nowrap;
+  }
+  .otiv-mobile-bar__brand strong span { color: var(--otiv-green); }
+  .otiv-mobile-bar__actions { display: flex; align-items: center; gap: 2px; }
+  .otiv-mobile-bar .otiv-nav__icon-btn { width: 37px; height: 37px; }
+
+  .otiv-mobile-search {
+    align-items: center;
+    gap: 9px;
+    margin: 10px 12px 0;
+    padding: 10px 13px;
+    background: var(--otiv-white);
+    border: 1px solid var(--otiv-border);
+    border-radius: 12px;
+    color: var(--otiv-text-faint);
+  }
+  .otiv-mobile-search:not([hidden]) { display: flex; }
+  .otiv-mobile-search input {
+    width: 100%;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: var(--otiv-text);
+    font: inherit;
+  }
+
+  .otiv-drawer-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    background: rgba(13, 20, 35, .52);
+  }
+  .otiv-drawer-overlay:not([hidden]) { display: block; }
+
+  .otiv-drawer {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: min(86vw, 330px);
+    padding: 16px;
+    background: var(--otiv-white);
+    box-shadow: 12px 0 35px rgba(13, 20, 35, .18);
+    transform: translateX(-105%);
+    transition: transform .24s ease;
+    z-index: 70;
+    overflow-y: auto;
+  }
+  .otiv-drawer.is-open { transform: translateX(0); }
+  .otiv-drawer__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--otiv-border);
+  }
+  .otiv-drawer__links {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 18px 0;
+  }
+  .otiv-drawer__link {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    min-height: 47px;
+    padding: 11px 13px;
+    border-radius: 10px;
+    color: var(--otiv-text-soft);
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .otiv-drawer__link i { width: 20px; text-align: center; font-size: 16px; }
+  .otiv-drawer__link:hover,
+  .otiv-drawer__link.is-active {
+    color: var(--otiv-white);
+    background: var(--otiv-green);
+  }
+  .otiv-drawer__footer {
+    margin-top: auto;
+    padding-top: 15px;
+    border-top: 1px solid var(--otiv-border);
+  }
+  .otiv-drawer__profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 4px 14px;
+  }
+  .otiv-drawer__profile span:last-child { display: flex; flex-direction: column; }
+  .otiv-drawer__profile small { color: var(--otiv-text-soft); font-size: 11px; }
+  body.drawer-is-open { overflow: hidden; }
+
+  .otiv-page { padding: 16px 12px 40px; }
+  .otiv-hero {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px 20px;
+    gap: 18px;
+  }
+  .otiv-hero__actions { width: 100%; flex-wrap: wrap; }
+  .otiv-hero__actions .otiv-btn { flex: 1 1 auto; justify-content: center; }
+
+  .otiv-quick-actions { margin: 20px 0; }
+  .otiv-quick-actions__grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .otiv-quick-action { min-height: 60px; padding: 12px; }
+
+  /* Le tableau garde ses colonnes et se défile horizontalement. */
+  .otiv-panel { border-radius: 12px; }
+  .otiv-panel .otiv-table { min-width: 680px; }
+  .otiv-table thead { display: table-header-group; }
+  .otiv-table tr { display: table-row; padding: 0; }
+  .otiv-table td, .otiv-table th { display: table-cell; white-space: nowrap; }
+  .otiv-table td { padding: 12px 16px; }
+  .otiv-table thead th { padding: 12px 16px; }
+
+  .otiv-settings { grid-template-columns: 1fr; }
+  .otiv-field-row { grid-template-columns: 1fr; }
+}
+
+@media (min-width: 768px) {
+  .otiv-mobile-bar,
+  .otiv-mobile-search,
+  .otiv-drawer,
+  .otiv-drawer-overlay { display: none !important; }
+}

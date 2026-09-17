@@ -1,3 +1,425 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Accueil — OTIV DIANA</title>
+<link rel="stylesheet" href="../icon/fontAwesome/all.min.css">
+<link rel="shortcut icon" href="../icon/sans-fond.png" type="image/x-icon">
+<link rel="stylesheet" href="../css/common.css">
+<link rel="stylesheet" href="../css/accueil.css">
+<script src="http://localhost:8081/web-apps/apps/api/documents/api.js"></script>
+
+</head>
+<body class="otiv-body">
+
+  <!-- header -->
+   <?php require __DIR__ . '/../includes/header.php'; ?>
+
+<main class="otiv-page">
+  <!-- Bannière d'accueil -->
+  <section class="otiv-hero">
+    <div>
+      <p class="otiv-hero__eyebrow">OTIV DIANA · ESPACE DOCUMENTAIRE</p>
+      <h1 class="otiv-hero__title">Bonjour </h1>
+      <p class="otiv-hero__subtitle">Retrouvez simplement vos documents et dossiers de travail.</p>
+    </div>
+    <div class="otiv-hero__actions">
+      <!-- Bouton d'importation connecté au PC -->
+      <button id="btnImportHero" class="otiv-btn otiv-btn--dark" style="cursor: pointer; border: none;">
+        <i class="fa-solid fa-file-import"></i> Importation
+      </button>
+      <input type="file" id="heroFilePicker" style="display: none;">
+
+      <a href="profil.php" class="otiv-btn otiv-btn--solid">
+        <i class="fa-solid fa-cloud"></i> Mon profil
+      </a>
+    </div>
+  </section>
+
+  <!-- Actions rapides -->
+  <section class="otiv-quick-actions">
+    <h2 class="otiv-quick-actions__title">Actions rapides</h2>
+    <div class="otiv-quick-actions__grid">
+      <button class="otiv-quick-action" data-action="create-doc" data-type="docx">
+        <span class="otiv-quick-action__icon is-word"><i class="fa-solid fa-file-word"></i></span>
+        <span class="otiv-quick-action__label">Document Word</span>
+      </button>
+
+      <button class="otiv-quick-action" data-action="create-doc" data-type="xlsx">
+        <span class="otiv-quick-action__icon is-excel"><i class="fa-solid fa-file-excel"></i></span>
+        <span class="otiv-quick-action__label">Feuille Excel</span>
+      </button>
+
+      <button class="otiv-quick-action" data-action="create-doc" data-type="pptx">
+        <span class="otiv-quick-action__icon is-ppt"><i class="fa-solid fa-file-powerpoint"></i></span>
+        <span class="otiv-quick-action__label">Présentation PowerPoint</span>
+      </button>
+
+      <button class="otiv-quick-action" data-action="create-doc" data-type="folder">
+        <span class="otiv-quick-action__icon is-folder"><i class="fa-solid fa-folder-plus"></i></span>
+        <span class="otiv-quick-action__label">Nouveau dossier</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- Modal création de document / dossier -->
+  <div class="otiv-modal-overlay" id="createDocModal" hidden>
+    <div class="otiv-modal otiv-modal--sm">
+      <div class="otiv-modal__header">
+        <h3 class="otiv-modal__title">
+          <i class="otiv-icon fa-solid" id="createDocIcon"></i>
+          <span id="createDocTitle">Nouveau document</span>
+        </h3>
+        <button class="otiv-modal__close" data-action="close-create-doc" aria-label="Fermer">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="otiv-modal__body">
+        <div class="otiv-field">
+          <label id="createDocLabel">Nom du document :</label>
+          <input type="text" id="createDocInput" placeholder="Nom">
+        </div>
+      </div>
+
+      <div class="otiv-modal__footer">
+        <button class="otiv-btn otiv-btn--ghost" data-action="close-create-doc">Annuler</button>
+        <button class="otiv-btn otiv-btn--solid" id="createDocConfirm">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <nav class="otiv-breadcrumb">
+    <i class="otiv-icon fa-solid fa-house"></i>
+    <span class="otiv-breadcrumb__crumb is-current" id="sectionLabel">Documents récents</span>
+  </nav>
+
+  <!-- Zone de statut de recherche -->
+  <div id="searchStatusBar" class="search-status-bar" style="display: none;">
+    <span id="searchResultText"></span>
+    <button class="btn-reset-search" onclick="resetSearch()">Effacer la recherche</button>
+  </div>
+
+  <!-- Tableau des documents récents -->
+  <div class="otiv-panel">
+    <table class="otiv-table">
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Taille</th>
+          <th>Modifié / Créé</th>
+          <th class="otiv-table__col-actions">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+        <tr>
+          <td colspan="4" style="text-align: center; padding: 20px;">Chargement...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal historique des activités / versions -->
+  <div class="otiv-modal-overlay" id="historyModal" hidden>
+    <div class="otiv-modal">
+      <div class="otiv-modal__header">
+        <h3 class="otiv-modal__title">
+          <i class="otiv-icon fa-solid fa-clock-rotate-left"></i>
+          Historique d'activité — <span id="historyFileName">document</span>
+        </h3>
+        <button class="otiv-modal__close" data-action="close-history" aria-label="Fermer">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="otiv-modal__body">
+        <ul class="otiv-history-list" id="historyList">
+          <!-- Rempli dynamiquement depuis MariaDB -->
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODALE PLEIN ÉCRAN UNIVERSELLE ONLYOFFICE & MÉDIAS -->
+  <!-- Le display:none/flex reste géré en JS (accueil.js) via style.display,
+       tout le reste de l'apparence vient maintenant de accueil.css (.otiv-preview)
+       afin de pouvoir l'adapter aux petits écrans. -->
+  <div id="previewModal" class="otiv-preview" style="display: none;">
+    <!-- Barre d'en-tête compacte -->
+    <div class="otiv-preview__header">
+      <div class="otiv-preview__info">
+        <i id="modalFileIcon" class="fa-solid fa-file otiv-preview__icon"></i>
+        <h3 id="modalFileTitle" class="otiv-preview__title">Nom du document</h3>
+        <span class="otiv-preview__tag">Espace Sécurisé OTIV DIANA</span>
+      </div>
+      <div class="otiv-preview__actions">
+        <a id="modalDownloadBtn" href="#" class="otiv-btn otiv-btn--ghost otiv-preview__download" download>
+          <i class="fa-solid fa-download"></i> <span>Télécharger</span>
+        </a>
+        <button class="otiv-preview__close" onclick="closePreviewModal()" title="Fermer l'éditeur (Échap)">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+    </div>
+    <!-- Zone de travail OnlyOffice occupant 100% de la hauteur restante -->
+    <div id="modalBody" class="otiv-preview__body"></div>
+  </div>
+</main>
+
+<script src="../js/common.js"></script>
+<script src="../js/accueil.js"></script>
+<script src="http://localhost:8081/web-apps/apps/api/documents/api.js"></script>
+
+</body>
+</html>
+---
+profile
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mon profil — OTIV DIANA</title>
+<link rel="shortcut icon" href="../icon/sans-fond.png" type="image/x-icon">
+<link rel="stylesheet" href="../icon/fontAwesome/all.min.css">
+<link rel="stylesheet" href="../css/common.css">
+<link rel="stylesheet" href="../css/admin.css">
+
+</head>
+<body class="otiv-body">
+
+
+  <!-- header -->
+   <?php require __DIR__ . '/../includes/header.php'; ?>
+
+
+<main class="otiv-page">
+
+  <div class="otiv-section-head">
+    <div>
+      <h1>Mon profil</h1>
+      <p>Gérez vos informations personnelles et votre sécurité.</p>
+    </div>
+  </div>
+
+  <div class="otiv-settings">
+
+    <!-- Navigation latérale -->
+      <?php require __DIR__ . '/../includes/header-nav.php'; ?>
+
+    <!-- Contenu -->
+    <div>
+
+      <div class="otiv-card">
+        <div class="otiv-profile-head">
+          <span class="otiv-avatar-lg">H</span>
+          <div>
+            <p class="otiv-profile-head__name">Hamzah</p>
+            <p class="otiv-profile-head__role">Développeur — Departement Informatique</p>
+            <span class="otiv-badge"><i class="fa-solid fa-circle-check"></i> Compte actif</span>
+          </div>
+        </div>
+        <div class="otiv-card__footer">
+          <button class="otiv-btn otiv-btn--ghost">
+            <i class="fa-solid fa-camera"></i> Changer la photo
+          </button>
+        </div>
+      </div>
+
+      <div class="otiv-card">
+        <p class="otiv-card__title">Informations personnelles</p>
+        <p class="otiv-card__subtitle">Ces informations sont visibles par les autres membres de OTIV DIANA.</p>
+
+        <div class="otiv-field-row">
+          <div class="otiv-field">
+            <label for="nom">Nom complet</label>
+            <input type="text" id="nom" value="Hamzah">
+          </div>
+          <div class="otiv-field">
+            <label for="email">Adresse e-mail</label>
+            <input type="email" id="email" value="hamzah@otivdiana.mg">
+          </div>
+        </div>
+
+        <div class="otiv-field-row">
+          <div class="otiv-field">
+            <label for="telephone">Téléphone</label>
+            <input type="tel" id="telephone" value="+261 32 00 000 00">
+          </div>
+          <div class="otiv-field">
+            <label for="departement">Departement</label>
+            <select id="departement">
+              <option>Informatique</option>
+              <option>Crédit</option>
+              <option>Comptabilité</option>
+              <option>Ressources Humaines</option>
+              <option>Direction Générale</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="otiv-field">
+          <label for="bio">À propos</label>
+          <textarea id="bio">Chargé du développement de l'interface documentaire GED 2.0.</textarea>
+        </div>
+
+        <div class="otiv-card__footer">
+          <button class="otiv-btn otiv-btn--ghost">Annuler</button>
+          <button class="otiv-btn otiv-btn--primary">
+            <i class="fa-regular fa-floppy-disk"></i> Enregistrer les modifications
+          </button>
+        </div>
+      </div>
+
+      <div class="otiv-card" id="securite">
+        <p class="otiv-card__title">Sécurité</p>
+        <p class="otiv-card__subtitle">Modifiez votre mot de passe régulièrement pour protéger votre compte.</p>
+
+        <div class="otiv-field">
+          <label for="mdp-actuel">Mot de passe actuel</label>
+          <input type="password" id="mdp-actuel" placeholder="••••••••">
+        </div>
+        <div class="otiv-field-row">
+          <div class="otiv-field">
+            <label for="mdp-nouveau">Nouveau mot de passe</label>
+            <input type="password" id="mdp-nouveau" placeholder="••••••••">
+          </div>
+          <div class="otiv-field">
+            <label for="mdp-confirme">Confirmer le mot de passe</label>
+            <input type="password" id="mdp-confirme" placeholder="••••••••">
+          </div>
+        </div>
+        <p class="otiv-field-hint">Minimum 8 caractères, avec au moins une majuscule et un chiffre.</p>
+
+        <div class="otiv-card__footer">
+          <button class="otiv-btn otiv-btn--primary">
+            <i class="fa-solid fa-lock"></i> Mettre à jour le mot de passe
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+<script src="../js/common.js"></script>
+<script src="../js/accueil.js"></script>
+</main>
+</body>
+</html>
+---
+css/* =========================================================
+   accueil.css — page d'accueil uniquement
+   ========================================================= */
+
+.otiv-hero{
+  background: linear-gradient(115deg, var(--otiv-navy) 0%, var(--otiv-navy-light) 45%, var(--otiv-green-dark) 100%);
+  border-radius: var(--otiv-radius-lg);
+  padding: 34px 36px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  color: var(--otiv-white);
+}
+
+.otiv-hero__eyebrow{
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .03em;
+  color: #B7F0CC;
+  margin: 0 0 10px;
+}
+
+.otiv-hero__title{
+  font-size: 27px;
+  font-weight: 800;
+  margin: 0 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.otiv-hero__subtitle{
+  margin: 0;
+  color: #D8DEEA;
+  font-size: 14px;
+  max-width: 480px;
+}
+
+.otiv-hero__actions{
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 720px){
+  .otiv-hero{ flex-direction: column; align-items: flex-start; }
+}
+/* ---------------------------------------------------------
+   Actions rapides
+   --------------------------------------------------------- */
+.otiv-quick-actions{ margin: 24px 0; }
+
+.otiv-quick-actions__title{
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--otiv-navy);
+  margin: 0 0 12px;
+}
+
+.otiv-quick-actions__grid{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.otiv-quick-action{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--otiv-white);
+  border: 1px solid var(--otiv-border);
+  border-radius: var(--otiv-radius-lg);
+  box-shadow: var(--otiv-shadow-card);
+  padding: 16px;
+  cursor: pointer;
+  text-align: left;
+  transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+}
+.otiv-quick-action:hover{
+  transform: translateY(-2px);
+  border-color: var(--otiv-green);
+  box-shadow: var(--otiv-shadow-pop);
+}
+
+.otiv-quick-action__icon{
+  width: 38px;
+  height: 38px;
+  border-radius: var(--otiv-radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  color: var(--otiv-white);
+  flex-shrink: 0;
+}
+.otiv-quick-action__icon.is-word{   background: #2B579A; }
+.otiv-quick-action__icon.is-excel{  background: #217346; }
+.otiv-quick-action__icon.is-ppt{    background: #D24726; }
+.otiv-quick-action__icon.is-folder{ background: var(--otiv-navy); }
+
+.otiv-quick-action__label{
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--otiv-text);
+}
+
+@media (max-width: 900px){
+  .otiv-quick-actions__grid{ grid-template-columns: repeat(2, 1fr); }
+}
+---css en commun
+
 /* =========================================================
    OTIV DIANA — GED 2.0
    common.css — design tokens + shared layout (header, nav,
@@ -1019,3 +1441,84 @@ button{ font-family: inherit; }
   .otiv-nav__link{ padding: 8px 12px; font-size: 13px; }
   .otiv-nav__icon-btn{ width: 32px; height: 32px; }
 }
+----
+header
+<?php
+// Récupère le nom du fichier actuel (ex: "documents.php")
+$currentPage = basename($_SERVER['SCRIPT_NAME']);
+
+// Configuration des liens du menu
+$navLinks = [
+    ['href' => 'accueil.php', 'icon' => 'fa-house', 'label' => 'Accueil'],
+    ['href' => 'documents.php', 'icon' => 'fa-folder', 'label' => 'Documents'],
+    ['href' => 'partages.php', 'icon' => 'fa-share-nodes', 'label' => 'Partages'],
+    ['href' => 'departement.php', 'icon' => 'fa-building', 'label' => 'Departement'],
+    ['href' => 'messages.php', 'icon' => 'fa-comments', 'label' => 'Messages'],
+    ['href' => 'corbeille.php', 'icon' => 'fa-trash', 'label' => 'Corbeille'],
+];
+?>
+<link rel="shortcut icon" href="../icon/sans-fond.png" type="image/x-icon">
+
+</nav>
+<nav class="otiv-nav">
+    <div class="otiv-nav__brand">
+        <span class="otiv-nav__brand-mark">
+        <img src="../icon/sans-fond.png" alt="O">
+        </span>OTIV<span>DIANA</span>
+    </div>
+
+    <div class="otiv-nav__links">
+        <?php foreach ($navLinks as $link): ?>
+            <?php $isActive = ($currentPage === $link['href']) ? 'is-active' : ''; ?>
+            <a href="<?= $link['href'] ?>" class="otiv-nav__link <?= $isActive ?>">
+                <i class="otiv-icon fa-solid <?= $link['icon'] ?>"></i> <?= $link['label'] ?>
+            </a>
+        <?php endforeach; ?>
+    </div>
+
+<!-- Barre de recherche connectée -->
+  <div class="otiv-nav__search">
+    <i class="otiv-icon fa-solid fa-magnifying-glass"></i>
+    <input type="text" id="searchInput" placeholder="Rechercher par nom, format (pdf), date..." autocomplete="off">
+  </div>
+
+  <button class="otiv-nav__icon-btn" aria-label="Notifications">
+    <i class="otiv-icon fa-solid fa-bell"></i>
+    <span class="otiv-nav__badge">1</span>
+  </button>
+
+  <a href="./profil.php" class="otiv-nav__user">
+    <!-- initiale -->
+    <span class="otiv-nav__avatar"></span>
+    <!-- name -->
+    <span class="otiv-nav__user-name"></span>
+  </a>
+</nav>
+---
+headre profile
+<?php
+// Récupère le fichier PHP courant (ex: profil.php)
+$currentPage = basename($_SERVER['SCRIPT_NAME']);
+
+// Configuration des liens du menu
+$settingsNavLinks = [
+    ['href' => 'profil.php',     'icon' => 'fa-regular fa-user',          'label' => 'Profil'],
+    ['href' => 'parametres.php', 'icon' => 'fa-solid fa-gear',            'label' => 'Paramètres'],
+    ['href' => 'journal.php',    'icon' => 'fa-solid fa-clock-rotate-left', 'label' => 'Mon activité'],
+];
+?>
+
+<!-- Navigation latérale -->
+<div class="otiv-settings-nav">
+    <?php foreach ($settingsNavLinks as $link): ?>
+        <?php $isActive = ($currentPage === $link['href']) ? 'is-active' : ''; ?>
+        <a href="<?= $link['href'] ?>" class="otiv-settings-nav__link <?= $isActive ?>">
+            <i class="<?= $link['icon'] ?>"></i> <?= $link['label'] ?>
+        </a>
+    <?php endforeach; ?>
+
+    <!-- Lien fixe de déconnexion -->
+    <a href="../login.php" class="otiv-nav__link is-danger">
+        <i class="otiv-icon fa-solid fa-right-from-bracket"></i> Déconnexion
+    </a>
+</div>

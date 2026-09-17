@@ -13,10 +13,10 @@
 
 <div class="otiv-admin-bar">
   <div class="otiv-admin-bar__label">
-    <i class="fa-solid fa-user-shield"></i> Panneau d'administration
+    <i class="fa-solid fa-user-shield"></i> <span>Panneau d'administration</span>
   </div>
   <!-- pouvoir voir revenir dans la page d'utilisateur simple -->
-  <a href="#"><i class="fa-solid fa-arrow-left"></i> Retour à l'application</a>
+  <a href="#"><i class="fa-solid fa-arrow-left"></i> <span>Retour à l'application</span></a>
 </div>
 
 <main class="otiv-page">

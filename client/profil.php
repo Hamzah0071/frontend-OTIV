@@ -9,6 +9,9 @@
 <link rel="stylesheet" href="../css/common.css">
 <link rel="stylesheet" href="../css/admin.css">
 
+<link rel="stylesheet" href="../css/responsive.css">
+<script src="../js/mobile-menu.js" defer></script>
+
 </head>
 <body class="otiv-body">
 

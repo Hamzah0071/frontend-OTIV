@@ -1,14 +1,20 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Accueil — OTIV DIANA</title>
+
+<script src="../js/mobile-menu.js" defer></script>
+
+
 <link rel="stylesheet" href="../icon/fontAwesome/all.min.css">
 <link rel="shortcut icon" href="../icon/sans-fond.png" type="image/x-icon">
 <link rel="stylesheet" href="../css/common.css">
 <link rel="stylesheet" href="../css/accueil.css">
+<link rel="stylesheet" href="../css/responsive.css">
+
+
 <script src="http://localhost:8081/web-apps/apps/api/documents/api.js"></script>
 
 </head>
@@ -141,28 +147,31 @@
       </div>
     </div>
   </div>
+
   <!-- MODALE PLEIN ÉCRAN UNIVERSELLE ONLYOFFICE & MÉDIAS -->
-<div id="previewModal" style="display: none; position: fixed; inset: 0; width: 100vw; height: 100vh; background: #0f241a; z-index: 99999; flex-direction: column; overflow: hidden;">
-  <!-- Barre d'en-tête compacte (52px) -->
-  <div style="height: 52px; padding: 0 24px; background: #0f241a; color: white; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); flex-shrink: 0;">
-    <div style="display: flex; align-items: center; gap: 12px;">
-      <i id="modalFileIcon" class="fa-solid fa-file" style="color: #00a84e; font-size: 20px;"></i>
-      <h3 id="modalFileTitle" style="margin: 0; font-size: 15px; font-weight: 600; color: #f8fbf9;">Nom du document</h3>
-      <span style="font-size: 11px; background: rgba(0, 168, 78, 0.2); color: #00a84e; padding: 2px 8px; border-radius: 4px; font-weight: 600;">Espace Sécurisé OTIV DIANA</span>
+  <!-- Le display:none/flex reste géré en JS (accueil.js) via style.display,
+       tout le reste de l'apparence vient maintenant de accueil.css (.otiv-preview)
+       afin de pouvoir l'adapter aux petits écrans. -->
+  <div id="previewModal" class="otiv-preview" style="display: none;">
+    <!-- Barre d'en-tête compacte -->
+    <div class="otiv-preview__header">
+      <div class="otiv-preview__info">
+        <i id="modalFileIcon" class="fa-solid fa-file otiv-preview__icon"></i>
+        <h3 id="modalFileTitle" class="otiv-preview__title">Nom du document</h3>
+        <span class="otiv-preview__tag">Espace Sécurisé OTIV DIANA</span>
+      </div>
+      <div class="otiv-preview__actions">
+        <a id="modalDownloadBtn" href="#" class="otiv-btn otiv-btn--ghost otiv-preview__download" download>
+          <i class="fa-solid fa-download"></i> <span>Télécharger</span>
+        </a>
+        <button class="otiv-preview__close" onclick="closePreviewModal()" title="Fermer l'éditeur (Échap)">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
     </div>
-    <div style="display: flex; align-items: center; gap: 12px;">
-      <a id="modalDownloadBtn" href="#" class="otiv-btn otiv-btn--ghost" style="color: white; border-color: rgba(255,255,255,0.25); padding: 6px 14px; font-size: 13px;" download>
-        <i class="fa-solid fa-download"></i> Télécharger
-      </a>
-      <button onclick="closePreviewModal()" title="Fermer l'éditeur (Échap)" style="background: rgba(255,255,255,0.1); border: none; color: white; width: 34px; height: 34px; border-radius: 8px; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;" onmouseover="this.style.background='rgba(220,38,38,0.85)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-    </div>
+    <!-- Zone de travail OnlyOffice occupant 100% de la hauteur restante -->
+    <div id="modalBody" class="otiv-preview__body"></div>
   </div>
-  <!-- Zone de travail OnlyOffice occupant 100% de la hauteur restante -->
-  <div id="modalBody" style="flex: 1; width: 100%; height: calc(100vh - 52px); background: #f8fbf9; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative;">
-  </div>
-</div>
 </main>
 
 <script src="../js/common.js"></script>
